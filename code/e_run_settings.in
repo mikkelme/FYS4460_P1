@@ -1,0 +1,3 @@
+variable temp equal 5.0        
+variable density equal 0.05        
+variable outfile string e_datafile_T50_d005.txt

@@ -1,0 +1,140 @@
+% For instructions,
+\documentclass[reprint, amsmath, amssymb, aps]{revtex4-2}
+
+%\usepackage[norsk]{babel}
+%Uncomment this if you want to write in Norwegian
+
+\usepackage{graphicx}% Include figure files
+\usepackage{dcolumn}% Align table columns on decimal point
+\usepackage{bm}% bold math
+\usepackage{hyperref}% add hypertext capabilities
+\usepackage{booktabs}
+\usepackage{float}
+
+
+
+\begin{document}
+
+\title{Project1 - FYS4460}
+
+
+\author{Mikkel Metzsch Jensen}
+
+
+\date{\today}
+\maketitle
+
+\subsection*{a) Maxwell Boltzman distribution}
+I simulated a $15 \times 15 \times 15$ system with face-centered-cubic packing resulting in 13500 particles. The temperature was set to $T' = 2.5 [T_0]$  and I simulated for 30000 timesteps with default timestep length $0.005 \tau$. see script \italic{a.in} for more details. Then i looked at the velcity distribution for the last timestep as shown in figure \ref{fig:hist_dist}. I calculated the inner product:
+\begin{align}
+  \frac{\sum_i h_i(t)h_i(t_n)}{\sum_i h_i(t_n)^2}
+  \label{eq:inner_product}
+\end{align}
+where $h_i$ is the height of bin $i$ in the histogram and $t_n$ is the final time-step. This is shown in figure \ref{fig:inner_product}. By this we see that the distribution indeed converges towards the distribution shown in \ref{fig:hist_dist}
+
+\begin{figure}[H]
+  \includegraphics[width=\linewidth]{figures/MB_dist.pdf}
+  \caption{Velocity distribution for the final time-step $t_n$ in the simulation. This matches nicely with the theoretically Maxwell-Boltzman distribution.}
+  \label{fig:hist_dist}
+\end{figure}
+
+\begin{figure}[H]
+  \includegraphics[width=\linewidth]{figures/inner_product.pdf}
+  \caption{Inner product as shown in equation \ref{eq:inner_product}. We see that it converges and stay around one quite early which shows that Maxwell-Boltzmann distribution is the steady state for this system.}
+  \label{fig:inner_product}
+\end{figure}
+
+\subsection*{b) Total energy}
+
+We user the script \italic{b.in}, where we output the total energy with the fix ave/time command. We look at the development of the total energy over time for different timesteps as showed in figure \ref{fig:etotal}
+
+\begin{figure}[H]
+  \includegraphics[width=\linewidth]{figures/Etot.pdf}
+  \caption{Total energy over time for different timesteps $dt$.}
+  \label{fig:etotal}
+\end{figure}
+
+We see as expected that the energy fluctuations is bigger for bigger $dt$.
+
+\subsection*{c) Temperature}
+
+We now use the equipartition principle:
+\begin{align}
+  \langle E_k \rangle = \frac{3}{2}Nk_bT
+  \label{eq:equip}
+\end{align}
+where  $E_k$ is the kinetic energy, $N$ the number of particles, $k_b$ Boltzmann's constant and $T$ is the temperature. By using this relation we find the temperature in simulations as showed in figure \ref{fig:temp}
+
+\begin{figure}[H]
+  \includegraphics[width=\linewidth]{figures/temp.pdf}
+  \caption{Estimated temperature using equation \ref{eq:equip} over time for different timesteps $dt$.}
+  \label{fig:temp}
+\end{figure}
+
+We initialized the simulations with temperature $T = 2.5$ which corresponds quite good to the mean value found here. All though we see a general ofsett of $\approx 0.035$ comparied to the initialized value of 2.5. By looking at the standard deviation $\sigma$, we see that the fluctuations lower with decreasing $dt$ \par
+In order to see how thee fluctuations depends on the system size we also ran a series of simulations with fixed $dt = 0.002$ but increasing system size. This is shown in figure \ref{fig:temp_size}
+
+\begin{figure}[H]
+  \includegraphics[width=\linewidth]{figures/temp_size.pdf}
+  \caption{Estimated temperature using equation \ref{eq:equip} over time for different system sizes $a\times b\times c$ measured in number of unit cells. Each unit cell contains 4 atoms, which gives a total of $N = 4abc$ atoms.}
+  \label{fig:temp}
+\end{figure}
+
+We see that the fluctuations also gets smaller for bigger systems.
+
+\subsection*{d) Pressure as function of temperature}
+I made a series of simulations at different temperature, let it stabilze and then collected the average values for the pressure and the temperature. By plotting $P(T)$ together with a linear model we get the result showed in figure \ref{fig:P(T)}
+
+\begin{figure}[H]
+  \includegraphics[width=\linewidth]{figures/P(T).pdf}
+  \caption{Average measurements of Temperature and pressure in stabilized simulations. The linear fit confirms the proporitonality between pressure and temperature as stated by ideal gas law.}
+  \label{fig:P(T)}
+\end{figure}
+
+We see that the result fit nicely to a linear model. This match with the ideal gass law:
+\begin{align*}
+  PV = NkT
+\end{align*}
+where pressure and Temperature are proportional.
+
+
+\subsection*{e) Pressure as function of both temperature and density}
+
+\begin{figure}[H]
+  \includegraphics[width=\linewidth]{figures/temp_press.pdf}
+  \caption{Pressure as function of temperature at different densities.}
+  \label{fig:temp_press}
+\end{figure}
+
+\begin{figure}[H]
+  \includegraphics[width=\linewidth]{figures/temp_rho_press.pdf}
+  \caption{Pressure as funciton of the product temperature times density.}
+  \label{fig:temp_rho_press}
+\end{figure}
+
+From the figures wee see that
+\begin{align*}
+  \frac{P }{T\rho k_B} \approx 1.04
+\end{align*}
+From ideal gas law we have
+\begin{align*}
+  \frac{P}{T\rho k_B} = \frac{1}{m}
+\end{align*}
+This gives $m = 1/1.04 = 0.097 \approx 1$. This match with the settings of setting $m = 1$ in lammps. For different masses we would se the change in the slope here ...?
+
+
+
+
+
+\bibliographystyle{unsrt}
+\bibliography{Bibliography.bib}
+
+
+
+\clearpage
+\appendix
+
+
+
+
+\end{document}
