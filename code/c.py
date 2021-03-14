@@ -42,7 +42,7 @@ fig_Temp2 = plt.figure(num = 2, dpi=80, facecolor='w', edgecolor='k')
 for i in range(len(energy_files)):
     energy_file = energy_files[i]
     data = read_energy(energy_file)
-    start_idx = len(data)//4
+    start_idx = len(data)//2
     size = system_size[i]
     N = 4*size**3
     Temp = 2/3*data[:,1]/(N*k)
@@ -51,7 +51,7 @@ for i in range(len(energy_files)):
 plt.xlabel(r"$t/\tau$", fontsize = 14)
 plt.ylabel(r"$P/\epsilon \sigma^{-3}$", fontsize = 14)
 plt.tight_layout(pad=1.1, w_pad=0.7, h_pad=0.2)
-plt.legend(fontsixe = 13)
+plt.legend(fontsize = 13)
 fig_Temp2.savefig("../article/figures/temp_size.pdf", bbox_inches="tight")
 plt.show()
 

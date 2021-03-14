@@ -52,6 +52,6 @@ if __name__ == "__main__":
         plt.xlabel(r"$t/\tau$", fontsize = 14)
         plt.ylabel("$U/\epsilon$", fontsize = 14)
         plt.tight_layout(pad=1.1, w_pad=0.7, h_pad=0.2)
+        plt.legend(fontsize = 13)
         fig_Etot.savefig("../article/figures/Etot.pdf", bbox_inches="tight")
-        plt.legend()
         plt.show()
